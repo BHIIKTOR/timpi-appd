@@ -124,6 +124,11 @@ func initRootCmd(
 		txCommand(),
 		keys.Commands(),
 	)
+
+	// Add migration command
+	rootCmd.AddCommand(
+		MigrateCmd(newApp),
+	)
 }
 
 func addModuleInitFlags(startCmd *cobra.Command) {

@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"reflect"
 	"sort"
 	"strings"
 	"sync"
@@ -1210,4 +1211,19 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 
 	paramsKeeper.Subspace(wasmtypes.ModuleName)
 	return paramsKeeper
+}
+
+func (app *TimpiApp) Migrate(v uint16) {
+	// Gets an empty struct of type wasm.AppModule
+	appModuleType := reflect.TypeOf(wasm.AppModule{}).Elem()
+	// Iterates over all the Module managers to find the wasmModule
+	for _, module := range app.ModuleManager.Modules {
+		if reflect.TypeOf(module).Implements(appModuleType) {
+			// Considers the module as a wasm.AppModule (go notation)
+			//wasmModule := module.(wasm.AppModule)
+			//wasmKeeper := app.WasmKeeper.NewMigrator(*wasmModule.keeper)
+			fmt.Println(v)
+			break
+		}
+	}
 }
