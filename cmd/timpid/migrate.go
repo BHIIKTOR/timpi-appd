@@ -28,11 +28,10 @@ func MigrateCmd(appCreator servertypes.AppCreator) *cobra.Command {
 			logger := log.NewLogger(cmd.OutOrStdout())
 			timpiApp := appCreator(logger, db, nil, ctx.Viper)
 			timpiApp.(*app.TimpiApp).Migrate(0)
-			fmt.Println("200")
+			fmt.Println("MigrateCmd realized")
 			return nil
 		},
 	}
-
 	return migrateCmd
 }
 

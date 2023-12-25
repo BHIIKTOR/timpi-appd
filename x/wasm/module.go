@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"cosmossdk.io/core/appmodule"
+	errorsmod "cosmossdk.io/errors"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -329,4 +330,49 @@ func chainPreRuns(pfns ...preRunFn) preRunFn {
 		}
 		return nil
 	}
+}
+
+func (am AppModule) GetKeeper() *keeper.Keeper {
+	return am.keeper
+}
+
+func (am AppModule) GetLegacySubspace() exported.Subspace {
+	return am.legacySubspace
+}
+
+func (am AppModule) RegisterMigrationAtoB(cfg module.Configurator, v uint64) error {
+	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
+	types.RegisterQueryServer(cfg.QueryServer(), keeper.Querier(am.keeper))
+
+	m := keeper.NewMigrator(*am.keeper, am.legacySubspace)
+
+	switch v {
+	case 1:
+		{
+			err := cfg.RegisterMigration(types.ModuleName, 1, m.Migrate1to2)
+			if err != nil {
+				panic(err)
+			}
+		}
+	case 2:
+		{
+			err := cfg.RegisterMigration(types.ModuleName, 1, m.Migrate2to3)
+			if err != nil {
+				panic(err)
+			}
+		}
+	case 3:
+		{
+			err := cfg.RegisterMigration(types.ModuleName, 1, m.Migrate3to4)
+			if err != nil {
+				panic(err)
+			}
+		}
+	default:
+		{
+			err := errorsmod.Wrap(nil, "Incorrect version type")
+			panic(err)
+		}
+	}
+	return nil
 }

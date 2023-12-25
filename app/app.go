@@ -6,10 +6,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"reflect"
 	"sort"
 	"strings"
 	"sync"
+	"timpid/x/wasm"
 
 	abci "github.com/cometbft/cometbft/abci/types"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
@@ -133,7 +133,6 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/CosmWasm/wasmd/x/wasm"
 	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
@@ -1213,17 +1212,13 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	return paramsKeeper
 }
 
-func (app *TimpiApp) Migrate(v uint16) {
+func (app *TimpiApp) Migrate(v uint64) {
 	// Gets an empty struct of type wasm.AppModule
-	appModuleType := reflect.TypeOf(wasm.AppModule{}).Elem()
 	// Iterates over all the Module managers to find the wasmModule
 	for _, module := range app.ModuleManager.Modules {
-		if reflect.TypeOf(module).Implements(appModuleType) {
-			// Considers the module as a wasm.AppModule (go notation)
-			//wasmModule := module.(wasm.AppModule)
-			//wasmKeeper := app.WasmKeeper.NewMigrator(*wasmModule.keeper)
-			fmt.Println(v)
-			break
+		if wasmModule, ok := module.(wasm.AppModule); ok {
+			cfg := app.configurator
+			wasmModule.RegisterMigrationAtoB(cfg, v)
 		}
 	}
 }
