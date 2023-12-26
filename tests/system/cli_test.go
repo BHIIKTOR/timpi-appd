@@ -24,7 +24,7 @@ func TestUnsafeResetAll(t *testing.T) {
 	//  when `unsafe-reset-all` is executed
 	// 	then the dir and all files in it are removed
 
-	wasmDir := filepath.Join(WorkDir, sut.nodePath(0), "wasm")
+	wasmDir := filepath.Join(WorkDir, sut.nodePath(0), "timpi")
 	require.NoError(t, os.MkdirAll(wasmDir, os.ModePerm))
 
 	_, err := os.CreateTemp(wasmDir, "testing")

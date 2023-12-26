@@ -621,10 +621,10 @@ func NewTimpiApp(
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
-	wasmDir := filepath.Join(homePath, "wasm")
+	timpiDir := filepath.Join(homePath, "timpi")
 	wasmConfig, err := wasm.ReadWasmConfig(appOpts)
 	if err != nil {
-		panic(fmt.Sprintf("error while reading wasm config: %s", err))
+		panic(fmt.Sprintf("error while reading timpi config: %s", err))
 	}
 
 	// The last arguments can contain custom message handlers, and custom query handlers,
@@ -644,7 +644,7 @@ func NewTimpiApp(
 		app.TransferKeeper,
 		app.MsgServiceRouter(),
 		app.GRPCQueryRouter(),
-		wasmDir,
+		timpiDir,
 		wasmConfig,
 		availableCapabilities,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),

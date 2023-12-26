@@ -19,7 +19,7 @@ import (
 
 var emptyWasmOpts []wasmkeeper.Option
 
-func TestWasmdExport(t *testing.T) {
+func TestTimpidExport(t *testing.T) {
 	db := dbm.NewMemDB()
 	logger := log.NewTestLogger(t)
 	gapp := NewWasmAppWithCustomOptions(t, false, SetupOptions{
