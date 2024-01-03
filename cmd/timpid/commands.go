@@ -2,8 +2,11 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
+	"os/exec"
+	"syscall"
 
 	cmtcfg "github.com/cometbft/cometbft/config"
 	dbm "github.com/cosmos/cosmos-db"
@@ -127,8 +130,74 @@ func initRootCmd(
 
 	// Add migration command
 	rootCmd.AddCommand(
-		MigrateCmd(newApp),
+		UpgradeCommand(),
 	)
+}
+func UpgradeCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "migrate",
+		Short: "Migrates the app by runnning a bash script.",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			fmt.Println("Removing old timpid")
+			var output []byte
+			var err error
+
+			ctl := "systemctl"
+			fmt.Println(ctl)
+
+			stop := exec.Command(ctl, "stop", "timpid")
+			output, err = stop.Output()
+			if err != nil {
+				fmt.Println("There was a problem trying to stop the service timpid\nLast output: ", output)
+				return err
+			} else {
+				fmt.Println("Service stopped. Proceeding to remove timpid")
+			}
+			which := exec.Command("which", "timpid")
+			output, err = which.Output()
+			path := string(output)
+			if err != nil {
+				fmt.Println("Last output: ", output)
+				return err
+			}
+			// This section is to remove the timpid app, do not remove
+			executable, err := os.Executable()
+			if err != nil {
+				return err
+			}
+			err = syscall.Unlink(executable)
+			if err != nil {
+				return err
+			}
+			fmt.Println(path)
+			kill := exec.Command("rm", path)
+			output, err = kill.Output()
+
+			//stop := exec.Command(ctl, "stop", "timpid")
+			//_, err := stop.Output()
+			//if err != nil {
+			//	return err
+			//} else {
+			//	fmt.Println("Service stopped. Proceeding to kill timpid	A")
+			//}
+
+			//relocate := "cp /root/timpid/bin/timpid $(dirname $TIMPIDBIN)"
+			//restart := "systemctl start timpid"
+			//bash = exec.Command(relocate, restart)
+			//_, err = bash.Output()
+			//if err != nil {
+			//	return err
+			//} else {
+			//	fmt.Println("New timpid relocated")
+			//}
+			//if err != nil {
+			//	return err
+			//}
+			return nil
+		},
+	}
+
+	return cmd
 }
 
 func addModuleInitFlags(startCmd *cobra.Command) {

@@ -64,6 +64,8 @@ import (
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 
+	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -132,9 +134,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
-	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
 const appName = "timpiApp"
@@ -1210,15 +1209,4 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 
 	paramsKeeper.Subspace(wasmtypes.ModuleName)
 	return paramsKeeper
-}
-
-func (app *TimpiApp) Migrate(v uint64) {
-	// Gets an empty struct of type wasm.AppModule
-	// Iterates over all the Module managers to find the wasmModule
-	for _, module := range app.ModuleManager.Modules {
-		if wasmModule, ok := module.(wasm.AppModule); ok {
-			cfg := app.configurator
-			wasmModule.RegisterMigrationAtoB(cfg, v)
-		}
-	}
 }
