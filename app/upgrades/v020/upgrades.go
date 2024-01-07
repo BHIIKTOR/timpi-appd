@@ -17,7 +17,7 @@ import (
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
+	// consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
 	v6 "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/migrations/v6"
@@ -44,15 +44,15 @@ var Upgrade = upgrades.Upgrade{
 		Added: []string{
 			authtypes.ModuleName,
 			banktypes.ModuleName,
-			distrtypes.ModuleName,
-			genutiltypes.ModuleName,
-			govtypes.ModuleName,
-			paramstypes.ModuleName,
 			stakingtypes.ModuleName,
-
-			consensusparamtypes.ModuleName,
+			distrtypes.ModuleName,
+			govtypes.ModuleName,
+			genutiltypes.ModuleName,
+			paramstypes.ModuleName,
 
 			ibcfeetypes.StoreKey,
+
+			// consensusparamtypes.ModuleName,
 
 			crisistypes.ModuleName,
 			circuittypes.ModuleName,
