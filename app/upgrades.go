@@ -18,15 +18,16 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/CosmWasm/wasmd/app/upgrades"
-	"github.com/CosmWasm/wasmd/app/upgrades/noop"
-	v050 "github.com/CosmWasm/wasmd/app/upgrades/v050"
+	"timpid/app/upgrades"
+	"timpid/app/upgrades/noop"
+	v020 "timpid/app/upgrades/v020"
+
 	v2 "github.com/CosmWasm/wasmd/x/wasm/migrations/v2"
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
 // Upgrades list of chain upgrades
-var Upgrades = []upgrades.Upgrade{v050.Upgrade}
+var Upgrades = []upgrades.Upgrade{v020.Upgrade}
 
 // RegisterUpgradeHandlers registers the chain upgrade handlers
 func (app *TimpiApp) RegisterUpgradeHandlers() {
