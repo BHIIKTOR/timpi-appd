@@ -18,6 +18,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"cosmossdk.io/x/nft"
+	"github.com/cosmos/cosmos-sdk/x/group"
 
 	// consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
@@ -44,6 +45,10 @@ var Upgrade = upgrades.Upgrade{
 	CreateUpgradeHandler: CreateUpgradeHandler,
 	StoreUpgrades: storetypes.StoreUpgrades{
 		Added: []string{
+			// SDK 46
+			group.ModuleName,
+			nft.ModuleName,
+
 			authtypes.ModuleName,
 			banktypes.ModuleName,
 			stakingtypes.ModuleName,
@@ -51,8 +56,6 @@ var Upgrade = upgrades.Upgrade{
 			govtypes.ModuleName,
 			genutiltypes.ModuleName,
 			paramstypes.ModuleName,
-
-			nft.ModuleName,
 
 			ibcfeetypes.StoreKey,
 
