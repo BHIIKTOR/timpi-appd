@@ -25,6 +25,7 @@ type AppKeepers struct {
 	CapabilityKeeper      *capabilitykeeper.Keeper
 	IBCKeeper             *ibckeeper.Keeper
 }
+
 type ModuleManager interface {
 	RunMigrations(ctx context.Context, cfg module.Configurator, fromVM module.VersionMap) (module.VersionMap, error)
 	GetVersionMap() module.VersionMap
@@ -42,3 +43,18 @@ type Upgrade struct {
 	CreateUpgradeHandler func(ModuleManager, module.Configurator, *AppKeepers) upgradetypes.UpgradeHandler
 	StoreUpgrades        storetypes.StoreUpgrades
 }
+
+// type Upgrade struct {
+// 	// Upgrade version name, for the upgrade handler, e.g. `v7`
+// 	UpgradeName string
+
+// 	// CreateUpgradeHandler defines the function that creates an upgrade handler
+// 	CreateUpgradeHandler func(
+// 		*module.Manager,
+// 		module.Configurator,
+// 		*keepers.AppKeepers,
+// 	) upgradetypes.UpgradeHandler
+
+// 	// Store upgrades, should be used for any new modules introduced, new modules deleted, or store names renamed.
+// 	StoreUpgrades store.StoreUpgrades
+// }
