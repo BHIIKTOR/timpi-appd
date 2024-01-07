@@ -47,10 +47,13 @@ func (app *TimpiApp) RegisterUpgradeHandlers() {
 		ConsensusParamsKeeper: &app.ConsensusParamsKeeper,
 		CapabilityKeeper:      app.CapabilityKeeper,
 		IBCKeeper:             app.IBCKeeper,
+		ICAHostKeeper:         app.ICAHostKeeper,
 		Codec:                 app.appCodec,
 		GetStoreKey:           app.GetKey,
 	}
+
 	app.GetStoreKeys()
+
 	// register all upgrade handlers
 	for _, upgrade := range Upgrades {
 		app.UpgradeKeeper.SetUpgradeHandler(
@@ -104,6 +107,9 @@ func setupLegacyKeyTables(k *paramskeeper.Keeper) {
 
 		case crisistypes.ModuleName:
 			keyTable = crisistypes.ParamKeyTable() //nolint:staticcheck
+
+		// case group.ModuleName:
+		// 	keyTable = group.StoreKey //nolint:staticcheck
 
 		// ibc types
 		case ibctransfertypes.ModuleName:

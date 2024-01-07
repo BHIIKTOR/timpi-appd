@@ -10,6 +10,8 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+
+	// capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
@@ -22,7 +24,7 @@ import (
 
 	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
-	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
+	ibccapabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
 	v6 "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/migrations/v6"
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
@@ -46,11 +48,12 @@ var Upgrade = upgrades.Upgrade{
 	StoreUpgrades: storetypes.StoreUpgrades{
 		Added: []string{
 			authtypes.ModuleName,
+			genutiltypes.ModuleName,
 			banktypes.ModuleName,
+			// capabilitytypes.ModuleName,
 			stakingtypes.ModuleName,
 			distrtypes.ModuleName,
 			govtypes.ModuleName,
-			genutiltypes.ModuleName,
 			paramstypes.ModuleName,
 
 			// SDK 46
@@ -84,7 +87,7 @@ func CreateUpgradeHandler(
 		// NOTE: The moduleName arg of v6.CreateUpgradeHandler refers to the auth module ScopedKeeper name to which the channel capability should be migrated from.
 		// This should be the same string value provided upon instantiation of the ScopedKeeper with app.CapabilityKeeper.ScopeToModule()
 		const moduleName = icacontrollertypes.SubModuleName
-		if err := v6.MigrateICS27ChannelCapability(sdkCtx, ak.Codec, ak.GetStoreKey(capabilitytypes.ModuleName),
+		if err := v6.MigrateICS27ChannelCapability(sdkCtx, ak.Codec, ak.GetStoreKey(ibccapabilitytypes.ModuleName),
 			ak.CapabilityKeeper, moduleName); err != nil {
 			return nil, err
 		}

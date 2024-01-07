@@ -14,16 +14,35 @@ import (
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	consensusparamkeeper "github.com/cosmos/cosmos-sdk/x/consensus/keeper"
 	paramskeeper "github.com/cosmos/cosmos-sdk/x/params/keeper"
+
+	// ica "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts"
+
+	icacontrollerkeeper "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/keeper"
+	icahostkeeper "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/keeper"
+	ibcfeekeeper "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
+	// ibchookskeeper "github.com/cosmos/ibc-apps/modules/ibc-hooks/v8/keeper"
 )
 
 type AppKeepers struct {
+	// keys    map[string]*storetypes.KVStoreKey
+	// tkeys   map[string]*storetypes.TransientStoreKey
+	// memKeys map[string]*storetypes.MemoryStoreKey
+
+	GetStoreKey func(storeKey string) *storetypes.KVStoreKey
+
 	AccountKeeper         *authkeeper.AccountKeeper
 	ParamsKeeper          *paramskeeper.Keeper
 	ConsensusParamsKeeper *consensusparamkeeper.Keeper
 	Codec                 codec.Codec
-	GetStoreKey           func(storeKey string) *storetypes.KVStoreKey
 	CapabilityKeeper      *capabilitykeeper.Keeper
-	IBCKeeper             *ibckeeper.Keeper
+
+	IBCKeeper           *ibckeeper.Keeper
+	IBCFeeKeeper        ibcfeekeeper.Keeper
+	ICAControllerKeeper icacontrollerkeeper.Keeper
+	ICAHostKeeper       icahostkeeper.Keeper
+	TransferKeeper      ibctransferkeeper.Keeper
+	// IBCHooksKeeper      *ibchookskeeper.Keeper
 }
 
 type ModuleManager interface {
