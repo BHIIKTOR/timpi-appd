@@ -60,7 +60,7 @@ var Upgrade = upgrades.Upgrade{
 			group.ModuleName,
 			nft.ModuleName,
 
-			ibcfeetypes.StoreKey,
+			ibcfeetypes.ModuleName,
 
 			// SDK 47
 			crisistypes.ModuleName,
@@ -82,6 +82,9 @@ func CreateUpgradeHandler(
 		sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 		logger := sdkCtx.Logger().With("upgrade", UpgradeName)
+
+		// fromVM[ibcfeetypes.ModuleName] = mm.Modules[ibcfeetypes.ModuleName].ConsensusVersion()
+		// sdkCtx.Logger().Info(fmt.Sprintf("ibcfee module version %s set", fmt.Sprint(fromVM[ibcfeetypes.ModuleName])))
 
 		// ibc v6
 		// NOTE: The moduleName arg of v6.CreateUpgradeHandler refers to the auth module ScopedKeeper name to which the channel capability should be migrated from.

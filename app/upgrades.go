@@ -20,6 +20,8 @@ import (
 
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
+
+	// ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 
 	"timpid/app/upgrades"
@@ -108,6 +110,9 @@ func setupLegacyKeyTables(k *paramskeeper.Keeper) {
 		case crisistypes.ModuleName:
 			keyTable = crisistypes.ParamKeyTable() //nolint:staticcheck
 
+		// case consensusparamtypes.ModuleName:
+		// 	keyTable = consensusparamtypes.
+
 		// case group.ModuleName:
 		// 	keyTable = group.StoreKey //nolint:staticcheck
 
@@ -118,8 +123,10 @@ func setupLegacyKeyTables(k *paramskeeper.Keeper) {
 			keyTable = icahosttypes.ParamKeyTable()
 		case icacontrollertypes.SubModuleName:
 			keyTable = icacontrollertypes.ParamKeyTable()
+		// case ibcfeetypes.ModuleName:
+		// 	keyTable = ibcfeetypes.
 
-			// wasm
+		// wasm
 		case wasmtypes.ModuleName:
 			keyTable = v2.ParamKeyTable() //nolint:staticcheck
 		default:
