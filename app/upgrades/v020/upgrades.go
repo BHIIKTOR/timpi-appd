@@ -57,9 +57,9 @@ var Upgrade = upgrades.Upgrade{
 			genutiltypes.ModuleName,
 			paramstypes.ModuleName,
 
-			ibcfeetypes.StoreKey,
-
 			consensusparamtypes.ModuleName,
+
+			ibcfeetypes.StoreKey,
 
 			crisistypes.ModuleName,
 			circuittypes.ModuleName,
