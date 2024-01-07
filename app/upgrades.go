@@ -18,6 +18,10 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
+	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
+	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
+
 	"timpid/app/upgrades"
 	"timpid/app/upgrades/noop"
 	v020 "timpid/app/upgrades/v020"
@@ -97,8 +101,18 @@ func setupLegacyKeyTables(k *paramskeeper.Keeper) {
 			keyTable = slashingtypes.ParamKeyTable() //nolint:staticcheck
 		case govtypes.ModuleName:
 			keyTable = govv1.ParamKeyTable() //nolint:staticcheck
+
 		case crisistypes.ModuleName:
 			keyTable = crisistypes.ParamKeyTable() //nolint:staticcheck
+
+		// ibc types
+		case ibctransfertypes.ModuleName:
+			keyTable = ibctransfertypes.ParamKeyTable()
+		case icahosttypes.SubModuleName:
+			keyTable = icahosttypes.ParamKeyTable()
+		case icacontrollertypes.SubModuleName:
+			keyTable = icacontrollertypes.ParamKeyTable()
+
 			// wasm
 		case wasmtypes.ModuleName:
 			keyTable = v2.ParamKeyTable() //nolint:staticcheck
