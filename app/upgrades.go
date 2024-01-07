@@ -110,12 +110,6 @@ func setupLegacyKeyTables(k *paramskeeper.Keeper) {
 		case crisistypes.ModuleName:
 			keyTable = crisistypes.ParamKeyTable() //nolint:staticcheck
 
-		// case consensusparamtypes.ModuleName:
-		// 	keyTable = consensusparamtypes.
-
-		// case group.ModuleName:
-		// 	keyTable = group.StoreKey //nolint:staticcheck
-
 		// ibc types
 		case ibctransfertypes.ModuleName:
 			keyTable = ibctransfertypes.ParamKeyTable()
@@ -123,8 +117,6 @@ func setupLegacyKeyTables(k *paramskeeper.Keeper) {
 			keyTable = icahosttypes.ParamKeyTable()
 		case icacontrollertypes.SubModuleName:
 			keyTable = icacontrollertypes.ParamKeyTable()
-		// case ibcfeetypes.ModuleName:
-		// 	keyTable = ibcfeetypes.
 
 		// wasm
 		case wasmtypes.ModuleName:

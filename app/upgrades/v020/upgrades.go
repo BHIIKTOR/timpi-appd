@@ -50,11 +50,12 @@ var Upgrade = upgrades.Upgrade{
 			authtypes.ModuleName,
 			genutiltypes.ModuleName,
 			banktypes.ModuleName,
-			// capabilitytypes.ModuleName,
 			stakingtypes.ModuleName,
 			distrtypes.ModuleName,
 			govtypes.ModuleName,
 			paramstypes.ModuleName,
+
+			ibccapabilitytypes.ModuleName,
 
 			// SDK 46
 			group.ModuleName,
@@ -82,6 +83,13 @@ func CreateUpgradeHandler(
 		sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 		logger := sdkCtx.Logger().With("upgrade", UpgradeName)
+
+		logger.Info(` _    _ _____   _____ _____            _____  ______ `)
+		logger.Info(`| |  | |  __ \ / ____|  __ \     /\   |  __ \|  ____|`)
+		logger.Info(`| |  | | |__) | |  __| |__) |   /  \  | |  | | |__   `)
+		logger.Info(`| |  | |  ___/| | |_ |  _  /   / /\ \ | |  | |  __|  `)
+		logger.Info(`| |__| | |    | |__| | | \ \  / ____ \| |__| | |____ `)
+		logger.Info(` \____/|_|     \_____|_|  \_\/_/    \_\_____/|______|`)
 
 		// fromVM[ibcfeetypes.ModuleName] = mm.Modules[ibcfeetypes.ModuleName].ConsensusVersion()
 		// sdkCtx.Logger().Info(fmt.Sprintf("ibcfee module version %s set", fmt.Sprint(fromVM[ibcfeetypes.ModuleName])))
