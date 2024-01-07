@@ -17,6 +17,8 @@ import (
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	"cosmossdk.io/x/nft"
+
 	// consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
@@ -49,6 +51,8 @@ var Upgrade = upgrades.Upgrade{
 			govtypes.ModuleName,
 			genutiltypes.ModuleName,
 			paramstypes.ModuleName,
+
+			nft.ModuleName,
 
 			ibcfeetypes.StoreKey,
 
