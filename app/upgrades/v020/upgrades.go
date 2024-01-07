@@ -45,10 +45,6 @@ var Upgrade = upgrades.Upgrade{
 	CreateUpgradeHandler: CreateUpgradeHandler,
 	StoreUpgrades: storetypes.StoreUpgrades{
 		Added: []string{
-			// SDK 46
-			group.ModuleName,
-			nft.ModuleName,
-
 			authtypes.ModuleName,
 			banktypes.ModuleName,
 			stakingtypes.ModuleName,
@@ -57,11 +53,17 @@ var Upgrade = upgrades.Upgrade{
 			genutiltypes.ModuleName,
 			paramstypes.ModuleName,
 
-			consensusparamtypes.ModuleName,
+			// SDK 46
+			group.ModuleName,
+			nft.ModuleName,
 
 			ibcfeetypes.StoreKey,
 
+			// SDK 47
 			crisistypes.ModuleName,
+			consensusparamtypes.ModuleName,
+
+			// SDK 50
 			circuittypes.ModuleName,
 		},
 		Deleted: []string{},
